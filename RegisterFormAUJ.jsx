@@ -1,5 +1,7 @@
+//Iniciamos el componente
 State.init({ commitLoading: false });
 
+// Inicialización del estado para los campos del formulario
 State.init({
   surname: "",
   firstname: "",
@@ -9,6 +11,7 @@ State.init({
   password: "",
 });
 
+// Objeto que almacena los datos del formulario
 const data = {
   formData: {
     surname: state.surname,
@@ -20,11 +23,26 @@ const data = {
   },
 };
 
-const accountId = "zubairweb3.near";
+// Identificador de cuenta NEAR
+const accountId = "Lau22.near";
+
+// Obtenemos datos del usuario utilizando una función de la API
 const getData = Social.get(`${accountId}/formData/**`);
 
 console.log(getData);
 
+// Función para obtener datos del usuario desde otra API
+const getUserRegisterFormAUJ = (user) => {
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
+    .catch((err) => {
+      console.log(err);
+    })
+    .then((res) => {
+      State.update({ getUserRegisterFormAUJ: res.body.user });
+    });
+};
+
+// Estilos para componentes usando styled-components
 const Wrapper = styled.div`
 background-image: linear-gradient(to right, #11b3e8, #8b8ec3);
 width: 80%;
@@ -55,7 +73,8 @@ font-family: arial, sans-serif;
 font-size: 1.5rem;
 `;
 
-const CommitButton = styled.a`
+// Estilos para el botón de envío
+const CommitButton = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -63,7 +82,7 @@ const CommitButton = styled.a`
   padding: 0.5em 1.5em;
   gap: 0.5em;
   background: #898fc8;
-  border-radius: 50px;
+  border-radius: 150px;
   border: none;
   color: #ffffff; 
 
@@ -77,6 +96,7 @@ const CommitButton = styled.a`
   }
 `;
 
+// Verificamos si el usuario está autentificado
 let current_user = context.accountId;
 if (!current_user) {
   return (
@@ -87,6 +107,7 @@ if (!current_user) {
     </div>
   );
 }
+// JSX para el formulario de registro
 return (
   <Wrapper>
     <FormHeader>Registro AdoptaUnJunior</FormHeader>
@@ -153,13 +174,25 @@ return (
           onChange={(e) => State.update({ occupation: e.target.value })}
         >
           <option value="near-developer" name="occupation">
-            Junior
+            FullStack Developer
           </option>
           <option value="near-developer" name="occupation">
-            Empresa
+            Front End Developer
           </option>
           <option value="near-developer" name="occupation">
-            Escuela
+            Backc End Developer
+          </option>
+          <option value="near-developer" name="occupation">
+            Software Developer
+          </option>
+          <option value="near-developer" name="occupation">
+            Blockchain Developer
+          </option>
+          <option value="content-creation" name="occupation">
+            UX/UI Developer
+          </option>
+          <option value="crypto-trader" name="occupation">
+            Otras...
           </option>
         </select>
       </div>
@@ -176,31 +209,9 @@ return (
         />
       </div>
 
-      <CommitButton class="styled.a" data={data}>
+      <CommitButton class="styled.button" data={data}>
         Enviar
       </CommitButton>
     </Form>
-    <div>
-      <Wrapper>
-        <Widget
-          src="mob.near/widget/ProfileLarge"
-          props={{
-            accountId,
-            profile,
-            link: true,
-            fast,
-            showEditButton: !props.profile,
-          }}
-        />
-        <Widget
-          src="mob.near/widget/ProfileTabs"
-          props={{ accountId, profile }}
-        />
-        <Widget
-          src="millyrodriguez.near/widget/home"
-          props={{ accountId, profile }}
-        />
-      </Wrapper>
-    </div>
   </Wrapper>
 );
