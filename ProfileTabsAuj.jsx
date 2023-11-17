@@ -1,22 +1,31 @@
+// Obtener el account ID de las props o del contexto
 const accountId = props.accountId ?? context.accountId;
+
+// Comprobar si no se proporciona un account ID
 if (!accountId) {
   return "No account ID";
 }
 
+// Obtener el perfil del usuario o cargarlo si no se proporciona en las props
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
+// Comprobar si el perfil aún no ha sido cargado
 if (profile === null) {
   return "Loading";
 }
 
+// Extraer la descripción del perfil
 const description = profile.description;
 
+// Inicializar estados para cargar Bio, trabajos, widgets y medallas
 State.init({
+  loadBio:false,
   loadJob: false,
   loadWidgets: false,
   loadBadges: false,
 });
 
+// Renderizar la interfaz de usuario
 return (
   <>
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
