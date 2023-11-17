@@ -77,16 +77,6 @@ const CommitButton = styled.a`
   }
 `;
 
-let current_user = context.accountId;
-if (!current_user) {
-  return (
-    <div style={{ textAlign: "center" }}>
-      <a href="https://near.org/near/widget/ProfilePage?accountId=01cc90dd78d115c3dc8191ad30060ed1d22969c8aef417580a751d8ef158e13d">
-        <button>Connect with NEAR account</button>
-      </a>
-    </div>
-  );
-}
 return (
   <Wrapper>
     <Widget src="devs.near/widget/Community" props={{ accountId, profile }} />
